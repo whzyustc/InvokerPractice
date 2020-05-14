@@ -93,8 +93,7 @@ module.exports={
         open:true,
         hot:true,
         overlay:true,
-        host:"0.0.0.0",
-        index:"./index.html"
+        // index:"./index.html"
 
     }
 

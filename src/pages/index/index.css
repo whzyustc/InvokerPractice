@@ -1,0 +1,26 @@
+.fullarea {
+  width: 100%;
+  height: 100%;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+* body,
+* html {
+  height: 100%;
+  width: 100%;
+  background-color: #8764b8;
+}
+* #container {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: [c1] 150px [c2] 1fr [c3];
+  grid-row-gap: 10px;
+  grid-column-gap: 10px;
+}
+* #container #main {
+  width: 100%;
+  height: 100%;
+}
