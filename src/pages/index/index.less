@@ -4,7 +4,29 @@
 
 }
 
+.imageBox{
+    width: 120px;
+    height: 120px;
+    float: left;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    color:white;
+    text-transform: uppercase;
+}
 
+.skillimageBox{
+    .imageBox;
+    float:right;
+}
+
+.cursorDefault{
+    cursor: url('../../images/cursor_default.bmp');
+}
+
+.cursorTarget{
+    cursor: url('../../images/cursor_buy.bmp');
+}
 *{
     margin: 0;
     padding: 0;
@@ -15,6 +37,7 @@
     }
 
     #container{
+        .cursorDefault;
         width: 100%;
         height: 100%;
         display: grid;
@@ -33,6 +56,9 @@
 
         #main{
             .fullarea;
+            .header{
+                height: 120px;
+            }
 
         }
 

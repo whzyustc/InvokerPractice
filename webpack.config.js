@@ -18,7 +18,8 @@ module.exports={
     resolve:{
         modules:["node_modules"],
         alias:{
-            comp_path:path.resolve(__dirname,'src/component')
+            '@comp_path':path.resolve(__dirname,'src/component'),
+            '@image_path':path.resolve(__dirname,'src/images')
         },
         extensions:['.ts','.tsx','.js','.json']
     },
@@ -36,7 +37,7 @@ module.exports={
                         'css-loader'
                     ]
                 },{
-                    test:/\.(jpg|png|gif)$/,
+                    test:/\.(jpg|png|gif|bmp)$/,
                     loader:'url-loader',
                     options:{
                         //图片大小小于8kb，会被base64处理

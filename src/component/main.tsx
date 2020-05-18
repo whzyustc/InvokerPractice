@@ -1,4 +1,5 @@
 import React from 'react'
+import Header from './header';
 
 export interface IMainProps{
     name?:string;
@@ -7,6 +8,7 @@ export interface IMainProps{
 export interface IMainState{
     qius:string[];
     jinengs:string[];
+    currentjineng:string;
 }
 
 
@@ -16,14 +18,12 @@ skills[3][0][0]='y';
 skills[0][3][0]='c';
 skills[0][0][3]='t';
 skills[2][1][0]='v';
-skills[2][0][1]='f';
+skills[2][0][1]='g';
 skills[1][2][0]='x';
 skills[0][2][1]='z';
-skills[1][0][2]='g';
+skills[1][0][2]='f';
 skills[0][1][2]='d';
 
-
-var normalSkills:Set<string>[];
 
 enum asciicode {
     q=81,
@@ -40,7 +40,8 @@ enum asciicode {
     c=67,
     v=86,
     b=66,
-    g=71
+    g=71,
+    esc=27
     
 }
 
@@ -53,7 +54,8 @@ var invokelist:any={
 export default class MainCom extends React.Component<IMainProps,IMainState>{
     public state:Readonly<IMainState>={
         qius:[],
-        jinengs:['','']
+        jinengs:['',''],
+        currentjineng:''
     }
 
     constructor(props:IMainProps){
@@ -75,7 +77,11 @@ export default class MainCom extends React.Component<IMainProps,IMainState>{
                 break;
             case asciicode['r']:
                 this.invoke();
+            case asciicode['esc']:
+                this.cancel();
             default:
+                if (asciicode[e.keyCode])
+                this.addcurrent(asciicode[e.keyCode]);
                 break;
         }
 
@@ -87,6 +93,14 @@ export default class MainCom extends React.Component<IMainProps,IMainState>{
 
     componentWillUnmount(){
         document.removeEventListener("keydown",this.onKeyDown);
+    }
+
+    cancel(){
+        if (this.state.currentjineng!='')this.setState({currentjineng:''});
+    }
+
+    addcurrent(jineng:string){
+        this.setState({currentjineng:jineng});
     }
 
     invoke(){
@@ -103,9 +117,18 @@ export default class MainCom extends React.Component<IMainProps,IMainState>{
     addJineng(jineng:string)
     {
         let tmp = this.state.jinengs;
-        if (this.state.jinengs.indexOf(jineng)==1)return;
+
+        switch(this.state.jinengs.indexOf(jineng)){
+            
+            case 1:
+                break;
+            case 0:
+            default:
+                tmp.push (jineng) ;
+                break;
+
+        }
         
-        tmp.push (jineng) ;
         if (tmp.length>2)
         {
             tmp.shift();
@@ -132,7 +155,11 @@ export default class MainCom extends React.Component<IMainProps,IMainState>{
 
     render(){
         return (
-        <h1>{JSON.stringify(this.state)}</h1>
+            <>
+            <Header qius={this.state.qius} jinengs={this.state.jinengs} current={this.state.currentjineng}/>
+            <div className='huabu'>huabu</div>
+            {/* <h1>{JSON.stringify(this.state)}</h1> */}
+            </>
         );
     }
 }
