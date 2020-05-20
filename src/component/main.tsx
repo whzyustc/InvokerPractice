@@ -1,14 +1,18 @@
 import React from 'react'
 import Header from './header';
+import {targetInfo} from './area';
+import Area from './area';
 
 export interface IMainProps{
     name?:string;
 }
 
+
 export interface IMainState{
     qius:string[];
     jinengs:string[];
     currentjineng:string;
+    targetArr:Set<targetInfo>;
 }
 
 
@@ -24,6 +28,7 @@ skills[0][2][1]='z';
 skills[1][0][2]='f';
 skills[0][1][2]='d';
 
+const randomSkill:string[]=['t','y','d','f','g','z','x','c','v','b']
 
 enum asciicode {
     q=81,
@@ -55,11 +60,15 @@ export default class MainCom extends React.Component<IMainProps,IMainState>{
     public state:Readonly<IMainState>={
         qius:[],
         jinengs:['',''],
-        currentjineng:''
+        currentjineng:'',
+        targetArr:new Set()
     }
+    targetInterval: any[];
+    insertInterval: any;
 
     constructor(props:IMainProps){
         super(props);
+        this.targetInterval=[];
     }
 
     onKeyDown=(e:KeyboardEvent)=>{
@@ -86,13 +95,37 @@ export default class MainCom extends React.Component<IMainProps,IMainState>{
         }
 
     }
+    addTarget(){
+        let i:number;
+        let x=Math.floor((Math.random()*400)+1);
+        let y=Math.floor((Math.random()*400)+1);
+
+        i=Math.floor((Math.random()*10)+1);
+        let targetTmp=randomSkill[i];
+
+        
+
+        console.log(this.state.qius);
+        let tmp=this.state.targetArr;
+        tmp.add({
+            skillname:targetTmp,
+            position_x:x,
+            position_y:y
+        })
+        this.setState({targetArr:tmp});
+
+
+
+    }
 
     componentDidMount(){
         document.addEventListener("keyup",this.onKeyDown);
+        this.insertInterval=setInterval(this.addTarget.bind(this),3000);
     }
 
     componentWillUnmount(){
         document.removeEventListener("keydown",this.onKeyDown);
+        clearInterval(this.insertInterval);
     }
 
     cancel(){
@@ -149,7 +182,7 @@ export default class MainCom extends React.Component<IMainProps,IMainState>{
             tmp.shift();
         }
         this.setState({qius:tmp});
-    
+        
         }
     }
 
@@ -157,7 +190,7 @@ export default class MainCom extends React.Component<IMainProps,IMainState>{
         return (
             <>
             <Header qius={this.state.qius} jinengs={this.state.jinengs} current={this.state.currentjineng}/>
-            <div className='huabu'>huabu</div>
+            <Area target={this.state.targetArr} />
             {/* <h1>{JSON.stringify(this.state)}</h1> */}
             </>
         );

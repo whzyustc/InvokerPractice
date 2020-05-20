@@ -12,6 +12,15 @@
   color: white;
   text-transform: uppercase;
 }
+.radiusBox {
+  width: 60px;
+  height: 60px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  position: absolute;
+  border-radius: 50%;
+}
 .skillimageBox {
   width: 120px;
   height: 120px;
@@ -54,4 +63,9 @@
 }
 * #container #main .header {
   height: 120px;
+}
+* #container #main .area {
+  width: 100%;
+  height: 600px;
+  position: relative;
 }

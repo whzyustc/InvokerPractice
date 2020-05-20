@@ -56,6 +56,7 @@ export class SkillImage extends React.Component<IImageProps>{
         return (
             <div className={`${this.props.imagename} skillimageBox`} >{this.props.imagename}</div>
         )
-    }
+    }        
+
 
 }
