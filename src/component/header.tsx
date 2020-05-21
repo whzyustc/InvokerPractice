@@ -31,7 +31,7 @@ export default class Header extends React.Component<IHeaderProps>{
         return (
             <div className="header">
                 {this.props.qius.map((item,index)=><QiuImage imagename={item} key={index}/>)}
-                {this.props.jinengs.map((item,index)=><SkillImage imagename={item} key={1-index}  / >)}
+                {this.props.jinengs.map((item,index)=><SkillImage imagename={item} key={1-index}  />)}
                 {<SkillImage imagename={this.props.current}/>}
             </div>
         )

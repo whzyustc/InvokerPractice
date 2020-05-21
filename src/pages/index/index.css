@@ -2,6 +2,15 @@
   width: 100%;
   height: 100%;
 }
+.waiting {
+  border-color: white;
+}
+.clear {
+  border-color: #21e721;
+}
+.wrong {
+  border-color: #fa0000;
+}
 .imageBox {
   width: 120px;
   height: 120px;
@@ -19,7 +28,10 @@
   background-position: center center;
   background-size: cover;
   position: absolute;
+  text-indent: -9999px;
   border-radius: 50%;
+  border-width: 5px;
+  border-style: solid;
 }
 .skillimageBox {
   width: 120px;

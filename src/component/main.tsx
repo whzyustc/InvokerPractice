@@ -12,7 +12,7 @@ export interface IMainState{
     qius:string[];
     jinengs:string[];
     currentjineng:string;
-    targetArr:Set<targetInfo>;
+    targetArr:Map<string,targetInfo>;
 }
 
 
@@ -61,14 +61,14 @@ export default class MainCom extends React.Component<IMainProps,IMainState>{
         qius:[],
         jinengs:['',''],
         currentjineng:'',
-        targetArr:new Set()
+        targetArr:new Map()
     }
-    targetInterval: any[];
+    targetTimeout: any[];
     insertInterval: any;
 
     constructor(props:IMainProps){
         super(props);
-        this.targetInterval=[];
+        this.targetTimeout=[];
     }
 
     onKeyDown=(e:KeyboardEvent)=>{
@@ -95,26 +95,48 @@ export default class MainCom extends React.Component<IMainProps,IMainState>{
         }
 
     }
+
+
     addTarget(){
         let i:number;
+
+        let targetTmp:string;
+
+        do{
+
+        i=Math.floor((Math.random()*10));
+
+        targetTmp=randomSkill[i];
+
+        }while (this.state.targetArr.has(targetTmp))
+
         let x=Math.floor((Math.random()*400)+1);
         let y=Math.floor((Math.random()*400)+1);
 
-        i=Math.floor((Math.random()*10)+1);
-        let targetTmp=randomSkill[i];
 
-        
+        console.log(i,targetTmp);
 
-        console.log(this.state.qius);
+        //console.log(this.state.qius);
         let tmp=this.state.targetArr;
-        tmp.add({
+        tmp.set(targetTmp,{
             skillname:targetTmp,
             position_x:x,
-            position_y:y
-        })
+            position_y:y,
+            status:'waiting'
+        });
+        this.targetTimeout.push(setTimeout(this.deleteTarget.bind(this),12000,targetTmp));
+
         this.setState({targetArr:tmp});
 
 
+
+    }
+
+    deleteTarget(skillname:string){
+        let tmp=this.state.targetArr;
+        tmp.delete(skillname);
+
+        this.setState({targetArr:tmp})
 
     }
 
@@ -133,6 +155,7 @@ export default class MainCom extends React.Component<IMainProps,IMainState>{
     }
 
     addcurrent(jineng:string){
+        if (this.state.jinengs.indexOf(jineng))
         this.setState({currentjineng:jineng});
     }
 
@@ -182,15 +205,48 @@ export default class MainCom extends React.Component<IMainProps,IMainState>{
             tmp.shift();
         }
         this.setState({qius:tmp});
-        
         }
+    }
+
+    handleClick(e:any){
+        //console.log(typeof(e.target));
+        
+        let k=e.target.innerText
+        if (k==this.state.currentjineng)
+        {
+            let tmp=this.state.targetArr;
+            let obj=tmp.get(k);
+            if (obj)
+            {
+                obj.status='clear';
+                tmp.set(k,obj);
+                this.setState({targetArr:tmp})
+
+                this.targetTimeout.push(setTimeout(this.deleteTarget.bind(this),1000,k));
+            }
+        }
+        else {
+            
+            let tmp=this.state.targetArr;
+            let obj=tmp.get(k);
+            if (obj)
+            {
+                obj.status='wrong';
+                tmp.set(k,obj);
+                this.setState({targetArr:tmp})
+
+                this.targetTimeout.push(setTimeout(this.deleteTarget.bind(this),1000,k));
+            }
+        }
+
+        //console.log(target);
     }
 
     render(){
         return (
             <>
             <Header qius={this.state.qius} jinengs={this.state.jinengs} current={this.state.currentjineng}/>
-            <Area target={this.state.targetArr} />
+            <Area target={this.state.targetArr} clickFunction={this.handleClick.bind(this)}/>
             {/* <h1>{JSON.stringify(this.state)}</h1> */}
             </>
         );
