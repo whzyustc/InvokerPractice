@@ -8,7 +8,7 @@ export interface IHelloProps {
 export default class SideTab extends React.Component<IHelloProps>
 {
     render(){
-     return <ul>{`this ${this.props.compiler} and ${this.props.framework} project`.split(' ').map((item,index)=><li key={index}>{item}</li>)}</ul>
+     return <ul>{`${this.props.compiler} and ${this.props.framework} project`.split(' ').map((item,index)=><li key={index}>{item}</li>)}</ul>
     }
 }
 

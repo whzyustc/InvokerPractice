@@ -3,13 +3,25 @@
   height: 100%;
 }
 .waiting {
+  border-width: 5px;
+  border-style: solid;
   border-color: white;
 }
 .clear {
+  border-width: 5px;
+  border-style: solid;
   border-color: #21e721;
 }
 .wrong {
+  border-width: 5px;
+  border-style: solid;
   border-color: #fa0000;
+}
+.selected {
+  border-width: 5px;
+  border-style: solid;
+  border-color: #21e721;
+  box-sizing: content-box;
 }
 .imageBox {
   width: 120px;
@@ -30,8 +42,6 @@
   position: absolute;
   text-indent: -9999px;
   border-radius: 50%;
-  border-width: 5px;
-  border-style: solid;
 }
 .skillimageBox {
   width: 120px;

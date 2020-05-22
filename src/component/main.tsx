@@ -56,6 +56,23 @@ var invokelist:any={
     'e':2
 }
 
+var skillType:any={
+    'q':'element',
+    'w':'element',
+    'e':'element',
+    'r':'invoke',
+    't':'target',
+    'y':'target',
+    'd':'target',
+    'f':'spell',
+    'g':'spell',
+    'z':'target',
+    'x':'target',
+    'c':'target',
+    'v':'spell',
+    'b':'target'
+}
+
 export default class MainCom extends React.Component<IMainProps,IMainState>{
     public state:Readonly<IMainState>={
         qius:[],
@@ -155,8 +172,25 @@ export default class MainCom extends React.Component<IMainProps,IMainState>{
     }
 
     addcurrent(jineng:string){
-        if (this.state.jinengs.indexOf(jineng))
-        this.setState({currentjineng:jineng});
+        if (this.state.jinengs.indexOf(jineng)>=0)
+        {
+            if (skillType[jineng]=='spell')
+            {
+
+            let tmp=this.state.targetArr;
+            let obj=tmp.get(jineng);
+            if (obj)
+            {
+                obj.status='clear';
+                tmp.set(jineng,obj);
+                this.setState({targetArr:tmp})
+
+                this.targetTimeout.push(setTimeout(this.deleteTarget.bind(this),1000,jineng));
+            }
+
+            }
+            else this.setState({currentjineng:jineng});
+        }
     }
 
     invoke(){
@@ -247,6 +281,7 @@ export default class MainCom extends React.Component<IMainProps,IMainState>{
             <>
             <Header qius={this.state.qius} jinengs={this.state.jinengs} current={this.state.currentjineng}/>
             <Area target={this.state.targetArr} clickFunction={this.handleClick.bind(this)}/>
+
             {/* <h1>{JSON.stringify(this.state)}</h1> */}
             </>
         );
