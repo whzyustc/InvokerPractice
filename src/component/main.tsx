@@ -73,6 +73,8 @@ var skillType:any={
     'b':'target'
 }
 
+
+
 export default class MainCom extends React.Component<IMainProps,IMainState>{
     public state:Readonly<IMainState>={
         qius:[],
@@ -80,12 +82,12 @@ export default class MainCom extends React.Component<IMainProps,IMainState>{
         currentjineng:'',
         targetArr:new Map()
     }
-    targetTimeout: any[];
+    targetTimeout: any;
     insertInterval: any;
 
     constructor(props:IMainProps){
         super(props);
-        this.targetTimeout=[];
+        this.targetTimeout={};
     }
 
     onKeyDown=(e:KeyboardEvent)=>{
@@ -141,7 +143,9 @@ export default class MainCom extends React.Component<IMainProps,IMainState>{
             position_y:y,
             status:'waiting'
         });
-        this.targetTimeout.push(setTimeout(this.deleteTarget.bind(this),12000,targetTmp));
+
+
+        this.targetTimeout[targetTmp]=setTimeout(this.deleteTarget.bind(this),12000,targetTmp);
 
         this.setState({targetArr:tmp});
 
@@ -181,11 +185,12 @@ export default class MainCom extends React.Component<IMainProps,IMainState>{
             let obj=tmp.get(jineng);
             if (obj)
             {
+                if (obj.status=='wrong')return;
                 obj.status='clear';
                 tmp.set(jineng,obj);
                 this.setState({targetArr:tmp})
 
-                this.targetTimeout.push(setTimeout(this.deleteTarget.bind(this),1000,jineng));
+                this.targetTimeout[jineng]=setTimeout(this.deleteTarget.bind(this),1000,jineng);
             }
 
             }
@@ -252,6 +257,7 @@ export default class MainCom extends React.Component<IMainProps,IMainState>{
             let obj=tmp.get(k);
             if (obj)
             {
+                if (obj.status=='wrong')return;
                 obj.status='clear';
                 tmp.set(k,obj);
                 this.setState({targetArr:tmp})
@@ -265,6 +271,7 @@ export default class MainCom extends React.Component<IMainProps,IMainState>{
             let obj=tmp.get(k);
             if (obj)
             {
+                if (obj.status=='wrong')return;
                 obj.status='wrong';
                 tmp.set(k,obj);
                 this.setState({targetArr:tmp})
