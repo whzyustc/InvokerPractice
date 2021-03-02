@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
     "dev": "npx webpack-dev-server",
-    "liveserver":"live-server dist --port=3000"
+    "liveserver": "live-server dist --port=3000"
   },
   "author": "",
   "license": "ISC",
